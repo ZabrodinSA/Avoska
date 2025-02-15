@@ -1,0 +1,352 @@
+{
+	"info": {
+		"_postman_id": "a9df4163-0142-4e1a-80aa-4794beb49b2c",
+		"name": "Avoska.RESTAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14862994"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "SendUserPhone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendAuthCode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users/sendCode",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"sendCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users/{{user.ID}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user.ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Catalog",
+			"item": [
+				{
+					"name": "Category",
+					"item": [
+						{
+							"name": "AddCategory",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Овощи\",\r\n    \"image\":\"/resources/catalog/category/1.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/catalogs/addCategory",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"catalogs",
+										"addCategory"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Catalog",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/catalogs",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"catalogs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Goods",
+			"item": [
+				{
+					"name": "AddGood",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/goods",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GoodById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goods/id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GoodById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goods/id",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateGood",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/goods",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PatchGood",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/goods",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GoodsByCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goods?categoryId=empty",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "empty"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchGoodsByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/goods/?search=apple",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"goods",
+								""
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "apple"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user.ID",
+			"value": "0",
+			"type": "default"
+		},
+		{
+			"key": "user.PhoneNumber",
+			"value": "0",
+			"type": "string"
+		}
+	]
+}
