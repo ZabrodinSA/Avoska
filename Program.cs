@@ -1,3 +1,5 @@
+using Avoska;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,10 +22,8 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+UserControllerRouteManager.AddControllerRoute(app);
+CategoryControllerRouteManager.AddControllerRoute(app);
+CatalogControllerRouteManager.AddControllerRoute(app);
 
 app.Run();
