@@ -8,25 +8,21 @@ namespace Avoska.Controllers
         [HttpPost]
         public async Task<ActionResult> SendUserPhone()
         {
-            // Убедись, что запрос содержит тело
             if (!Request.Body.CanRead)
             {
                 return BadRequest("Request body is empty.");
             }
 
-            string? userPhone = null;
-            // Чтение тела запроса
+            UserInfo? userInfo;
             using (var reader = new StreamReader(Request.Body))
             {
                 string json = await reader.ReadToEndAsync();
-
-                // Десериализация JSON в объект
-                var myObject = JsonSerializer.Deserialize<MyModel>(json);
-
-                if (myObject != null) userPhone = myObject.phoneNumber;
+                userInfo = JsonSerializer.Deserialize<UserInfo>(json);
             }
 
-            return Json(new { success = true, phone = userPhone });
+            if (userInfo == null) return new BadRequestResult();
+            
+            return Json(userInfo);
         }
 
         [HttpPost]
@@ -36,9 +32,6 @@ namespace Avoska.Controllers
         }
     }
 
-    class MyModel
-    {
-        public string? phoneNumber { get; set; }
-    }
+    record UserInfo(string phoneNumber);
 }
 
