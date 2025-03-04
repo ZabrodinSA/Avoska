@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<ITimeService, SimpleTimeService>(); // добавляем сервис ITimeService
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,8 +24,16 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-UserControllerRouteManager.AddControllerRoute(app);
-CategoryControllerRouteManager.AddControllerRoute(app);
-CatalogControllerRouteManager.AddControllerRoute(app);
+app.MapControllers();
 
 app.Run();
+
+
+public interface ITimeService
+{
+    string Time { get; }
+}
+public class SimpleTimeService: ITimeService
+{
+    public string Time => DateTime.Now.ToString("hh:mm:ss");
+}

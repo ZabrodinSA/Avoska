@@ -3,35 +3,45 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Avoska.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class UsersController : Controller
     {
         [HttpPost]
-        public async Task<ActionResult> SendUserPhone()
+        public IActionResult SendUserPhone([FromBody] UserInfo userInfo)
         {
-            if (!Request.Body.CanRead)
-            {
-                return BadRequest("Request body is empty.");
-            }
-
-            UserInfo? userInfo;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                string json = await reader.ReadToEndAsync();
-                userInfo = JsonSerializer.Deserialize<UserInfo>(json);
-            }
-
-            if (userInfo == null) return new BadRequestResult();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             
-            return Json(userInfo);
+            var result = Json(userInfo);
+            result.StatusCode = StatusCodes.Status501NotImplemented;
+            
+            return result;
         }
 
-        [HttpPost]
-        public ActionResult SendAuthCode(int id)
+        [HttpPost("{id}")]
+        public IActionResult SendAuthCode(int id)
         {
+            Response.StatusCode = StatusCodes.Status501NotImplemented;
+
             return Json(new { code = id });
+        }
+
+        [HttpGet]
+        public IActionResult GetAllUsers()
+        {
+            return StatusCode(StatusCodes.Status501NotImplemented);
+        }
+        
+        [HttpGet("{userId}")]
+        public IActionResult GetUserById(int userId)
+        {
+            var result = Json(new {id = userId});
+            result.StatusCode = StatusCodes.Status501NotImplemented;
+            return result;
         }
     }
 
-    record UserInfo(string phoneNumber);
+    public record UserInfo(string PhoneNumber);
 }
 
