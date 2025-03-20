@@ -1,92 +1,108 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Avoska.Models.Goods;
+using Avoska.Repositories.Goods;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Avoska.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GoodsController : Controller
+public class GoodsController(IGoodsInfoRepository repository) : Controller
 {
     [HttpPost]
-    public IActionResult AddGood([FromBody] AddGoodModel addGoodModel)
+    // [Authorize(AuthUserModel.ADMIN_ROLE)]
+    public IActionResult AddGood([FromBody] AddGoodInfoModelDto addGoodInfoModel)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
-        
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
-        
-        return Json(addGoodModel);
-    }
-    
-    [HttpDelete("{id}")]
-    public IActionResult DeleteGoodById(int id)
-    {
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
 
-        return Json(new { deletedId = id });
-    }
-
-    [HttpPut]
-    public IActionResult UpdateGood([FromBody] AddGoodModel addGoodModel)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        var jsonResult = Json(repository.Add(addGoodInfoModel));
+        jsonResult.StatusCode = StatusCodes.Status201Created;
         
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
-        
-        return Json(addGoodModel);
-    }
-
-    [HttpPatch]
-    public IActionResult PatchGood([FromBody] AddGoodModel addGoodModel)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
-        
-        return Json(addGoodModel);
-    }
-
-    [HttpGet("{id:int}")]
-    public IActionResult GetGoodById(int id)
-    {
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
-
-        return Json(new { goodId = id });
+        return jsonResult;
     }
 
     [HttpGet]
-    public IActionResult GetGoodByCategory([FromQuery] string categoryId)
+    public IActionResult GetAllGoods()
     {
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
+        var goodInfoModels = repository.GetAll();
+        var jsonResult = Json(goodInfoModels);
 
-        return Json(new { category = categoryId });
+        if (!goodInfoModels.Any())
+            jsonResult.StatusCode = StatusCodes.Status204NoContent;
+
+        return jsonResult;
     }
     
-    [HttpGet("search")]
-    public IActionResult SearchGoodsByName([FromQuery] string search)
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteGoodById([FromRoute] Guid id)
     {
-        var httpRequest = Request;
-        Response.StatusCode = StatusCodes.Status501NotImplemented;
+        var goodInfoModel = repository.DeleteById(id);
 
-        return Json(new { searchParam =  search});
+        if (goodInfoModel == null)
+            return NotFound();
+
+        return Json(goodInfoModel);
+    }
+
+    [HttpPut]
+    public IActionResult PutGood([FromBody] PutGoodInfoModelDto goodInfoModelDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var goodInfoModel = repository.Put(goodInfoModelDto);
+
+        if (goodInfoModel == null)
+            return NotFound();
+
+        return Json(goodInfoModel);
+    }
+
+    [HttpPatch]
+    public IActionResult PatchGood([FromBody] PatchGoodInfoModelDto goodInfoModelDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var goodInfoModel = repository.Patch(goodInfoModelDto);
+
+        if (goodInfoModel == null)
+            return NotFound();
+
+        return Json(goodInfoModel);
+    }
+
+    [HttpGet("{id:guid}")]
+    public IActionResult GetGoodById([FromRoute] Guid id)
+    {
+        var goodInfoModel = repository.GetById(id);
+
+        if (goodInfoModel == null)
+            return NotFound();
+        
+        return Json(goodInfoModel);
+    }
+
+    [HttpGet("searchByCategory")]
+    public IActionResult GetGoodsByCategoryName([FromQuery] string categoryName)
+    {
+        var goodInfoModels = repository.GetByCategoryName(categoryName);
+        var jsonResult = Json(goodInfoModels);
+
+        if (!goodInfoModels.Any())
+            jsonResult.StatusCode = StatusCodes.Status204NoContent;
+            
+        return jsonResult;
+    }
+    
+    [HttpGet("searchByName")]
+    public IActionResult SearchGoodsByName([FromQuery] string name)
+    {
+        var goodInfoModel = repository.GetByName(name);
+
+        if (goodInfoModel == null)
+            return NotFound();
+        
+        return Json(goodInfoModel);
     }
 }
-
-public record NutritionalValue(
-    string Proteins,
-    string Fat,
-    string Carbohydrates
-);
-
-public record AddGoodModel(
-    string CategoryId,
-    string Name,
-    string Description,
-    string Image,
-    string Composition,
-    string Weight,
-    NutritionalValue NutritionalValue,
-    string ManufactureCountry,
-    DateTime ExpirationDate
-);

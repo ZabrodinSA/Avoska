@@ -14,14 +14,29 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/users",
+							"raw": "{{baseURL}}/users/auth?phoneNumber={{$randomPhoneNumber}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
-								"users"
+								"users",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "phoneNumber",
+									"value": "{{$randomPhoneNumber}}"
+								}
 							]
 						}
 					},
@@ -33,14 +48,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/users/sendCode",
+							"raw": "{{baseURL}}/users/{{authCode}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"users",
-								"sendCode"
+								"{{authCode}}"
 							]
 						}
 					},
@@ -52,12 +66,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/users",
+							"raw": "{{baseURL}}/users",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"users"
 							]
 						}
@@ -66,9 +79,16 @@
 				},
 				{
 					"name": "UserByID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {}
+						},
 						"url": {
 							"raw": "{{baseURL}}/api/users/{{user.ID}}",
 							"host": [
@@ -78,6 +98,76 @@
 								"api",
 								"users",
 								"{{user.ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/goods/3012cb35-0cfa-4af8-816e-8d3e9001918a",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"goods",
+								"3012cb35-0cfa-4af8-816e-8d3e9001918a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserInfo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a1a446a8-88b8-4e93-8b32-1aefd2453147\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserInfo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"a1a446a8-88b8-4e93-8b32-1aefd2453147\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"users"
 							]
 						}
 					},
@@ -114,6 +204,139 @@
 										"api",
 										"catalogs",
 										"addCategory"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SearchCategoryByName",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/catalogs/search?name={{categoryName}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"catalogs",
+										"search"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "{{categoryName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CategoryById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Овощи\",\r\n    \"image\":\"/resources/catalog/category/1.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/catalogs/{{categoryID}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"catalogs",
+										"{{categoryID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"97ea571d-a8a6-4257-9762-f1d1f3133d65\",\r\n    \"name\": \"Овощи\",\r\n    \"image\": \"/resources/catalog/category/1.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/catalogs",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"catalogs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Category",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"\",\r\n    \"name\":\"Овощи\",\r\n    \"image\":\"/resources/catalog/category/1.png\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/catalogs",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"catalogs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CategoryById",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/catalogs/138eba0f-5559-4d6a-9c7f-5193ed2393d4",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"catalogs",
+										"138eba0f-5559-4d6a-9c7f-5193ed2393d4"
 									]
 								}
 							},
@@ -177,14 +400,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/goods/id",
+							"raw": "{{baseURL}}/goods/324f0b17-e667-4495-ab0c-a07de6f9a2d9",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods",
-								"id"
+								"324f0b17-e667-4495-ab0c-a07de6f9a2d9"
 							]
 						}
 					},
@@ -243,7 +465,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"raw": "{\r\n    \"id\":{{goodID}},\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,12 +473,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/goods",
+							"raw": "{{baseURL}}/goods",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods"
 							]
 						}
@@ -264,23 +485,22 @@
 					"response": []
 				},
 				{
-					"name": "GoodsByCategory",
+					"name": "GoodsByCategoryName",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/goods?categoryId=empty",
+							"raw": "{{baseURL}}/goods?categoryName=Овощи",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods"
 							],
 							"query": [
 								{
-									"key": "categoryId",
-									"value": "empty"
+									"key": "categoryName",
+									"value": "Овощи"
 								}
 							]
 						}
@@ -293,20 +513,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/goods/?search=apple",
+							"raw": "{{baseURL}}/goods/search?name=Томаты красные",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods",
-								""
+								"search"
 							],
 							"query": [
 								{
-									"key": "search",
-									"value": "apple"
+									"key": "name",
+									"value": "Томаты красные"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AllGoods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/goods",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"goods"
 							]
 						}
 					},
@@ -340,13 +576,28 @@
 	"variable": [
 		{
 			"key": "user.ID",
-			"value": "0",
+			"value": "13",
 			"type": "default"
 		},
 		{
-			"key": "user.PhoneNumber",
-			"value": "0",
+			"key": "authCode",
+			"value": "12345",
 			"type": "string"
+		},
+		{
+			"key": "goodID",
+			"value": "112233",
+			"type": "string"
+		},
+		{
+			"key": "categoryID",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "categoryName",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

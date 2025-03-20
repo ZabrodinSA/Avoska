@@ -1,0 +1,30 @@
+﻿@model Avoska.Models.Users.UserInfoModel
+@* *@
+@* @{ *@
+@*     Layout = null; *@
+@* } *@
+@functions
+{
+    public void SetViewMessage()
+    {
+        ViewData["Title"] = "Hello view";
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <h2>@Model.PhoneNumber</h2>
+    <h3>@ViewData["Title"]</h3>
+    @{
+        SetViewMessage();
+    }
+    <meta charset="utf-8"/>
+</head>
+<body>
+<div>
+      
+</div>
+</body>
+</html>
