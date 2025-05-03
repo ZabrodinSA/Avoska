@@ -2,11 +2,11 @@
 
 namespace Avoska.Models.Users;
 
-public class VerifyCodeModelDto(string phoneNumber, int code)
+public class VerifyCodeModelDto()
 {
     [Required]
-    public string PhoneNumber { get; } = phoneNumber;
+    public string? PhoneNumber { get; set; }
     
     [Required]
-    public int Code { get; } = code;
+    public int? Code { get; set; }
 }

@@ -2,10 +2,10 @@
 
 namespace Avoska.Models.Users;
 
-public class PutUserInfoModelDto
+public class PutUserInfoModelDto(string phoneNumber)
 {
     [Required]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public string PhoneNumber { get; set; } = phoneNumber;
 
     public string? Name { get; set; }
 

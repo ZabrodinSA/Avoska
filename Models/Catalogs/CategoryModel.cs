@@ -4,11 +4,6 @@ namespace Avoska.Models.Catalogs;
 
 public class CategoryModel
 {
-    public CategoryModel(AddCategoryModelDto addCategoryModelDto)
-    {
-        FromAddDto(addCategoryModelDto);
-    }
-    
     [Required]
     public Guid Id { get; set; } = Guid.NewGuid();
     
@@ -30,7 +25,7 @@ public class CategoryModel
         Image = categoryModel.Image;
     }
 
-    private void FromAddDto(AddCategoryModelDto addCategoryModelDto)
+    public void Update(AddCategoryModelDto addCategoryModelDto)
     {
         Name = addCategoryModelDto.Name;
         Image = addCategoryModelDto.Image;

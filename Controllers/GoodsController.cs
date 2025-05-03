@@ -10,21 +10,32 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
 {
     [HttpPost]
     // [Authorize(AuthUserModel.ADMIN_ROLE)]
-    public IActionResult AddGood([FromBody] AddGoodInfoModelDto addGoodInfoModel)
+    public async Task<IActionResult> AddGood([FromBody] AddGoodInfoModelDto addGoodInfoModel)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var jsonResult = Json(repository.Add(addGoodInfoModel));
-        jsonResult.StatusCode = StatusCodes.Status201Created;
+        var goodInfoModel = await repository.GetByName(addGoodInfoModel.Name);
+        if (goodInfoModel != null)
+        {
+            return BadRequest($"Имя продукта [{addGoodInfoModel.Name}] уже занято");
+        }
         
-        return jsonResult;
+        goodInfoModel = await repository.Add(addGoodInfoModel);
+        if (goodInfoModel != null)
+        {
+            var jsonResult = Json(goodInfoModel);
+            jsonResult.StatusCode = StatusCodes.Status201Created;
+            return jsonResult;
+        }
+
+        return BadRequest($"Не получилось добавить продукт: {addGoodInfoModel.Name}");
     }
 
     [HttpGet]
-    public IActionResult GetAllGoods()
+    public async Task<IActionResult> GetAllGoods()
     {
-        var goodInfoModels = repository.GetAll();
+        var goodInfoModels = await repository.GetAll();
         var jsonResult = Json(goodInfoModels);
 
         if (!goodInfoModels.Any())
@@ -34,9 +45,9 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
     }
     
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteGoodById([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteGoodById([FromRoute] Guid id)
     {
-        var goodInfoModel = repository.DeleteById(id);
+        var goodInfoModel = await repository.DeleteById(id);
 
         if (goodInfoModel == null)
             return NotFound();
@@ -45,48 +56,39 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
     }
 
     [HttpPut]
-    public IActionResult PutGood([FromBody] PutGoodInfoModelDto goodInfoModelDto)
+    public async Task<IActionResult> PutGood([FromBody] PutGoodInfoModelDto goodInfoModelDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var goodInfoModel = repository.Put(goodInfoModelDto);
+        var goodInfoModel = await repository.Put(goodInfoModelDto);
 
-        if (goodInfoModel == null)
-            return NotFound();
-
-        return Json(goodInfoModel);
+        return goodInfoModel != null ? Json(goodInfoModel) : NotFound();
     }
 
     [HttpPatch]
-    public IActionResult PatchGood([FromBody] PatchGoodInfoModelDto goodInfoModelDto)
+    public async Task<IActionResult> PatchGood([FromBody] PatchGoodInfoModelDto goodInfoModelDto)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var goodInfoModel = repository.Patch(goodInfoModelDto);
+        var goodInfoModel = await repository.Patch(goodInfoModelDto);
 
-        if (goodInfoModel == null)
-            return NotFound();
-
-        return Json(goodInfoModel);
+        return goodInfoModel != null ? Json(goodInfoModel) : NotFound();
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetGoodById([FromRoute] Guid id)
+    public async Task<IActionResult> GetGoodById([FromRoute] Guid id)
     {
-        var goodInfoModel = repository.GetById(id);
+        var goodInfoModel = await repository.GetById(id);
 
-        if (goodInfoModel == null)
-            return NotFound();
-        
-        return Json(goodInfoModel);
+        return goodInfoModel != null ? Json(goodInfoModel) : NotFound();
     }
 
     [HttpGet("searchByCategory")]
-    public IActionResult GetGoodsByCategoryName([FromQuery] string categoryName)
+    public async Task<IActionResult> GetGoodsByCategoryName([FromQuery] string categoryName)
     {
-        var goodInfoModels = repository.GetByCategoryName(categoryName);
+        var goodInfoModels = await repository.GetByCategoryName(categoryName);
         var jsonResult = Json(goodInfoModels);
 
         if (!goodInfoModels.Any())
@@ -95,14 +97,11 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
         return jsonResult;
     }
     
-    [HttpGet("searchByName")]
-    public IActionResult SearchGoodsByName([FromQuery] string name)
+    [HttpGet("byName")]
+    public async Task<IActionResult> GetGoodByName([FromQuery] string name)
     {
-        var goodInfoModel = repository.GetByName(name);
-
-        if (goodInfoModel == null)
-            return NotFound();
+        var goodInfoModel = await repository.GetByName(name);
         
-        return Json(goodInfoModel);
+        return goodInfoModel != null ? Json(goodInfoModel) : NotFound();
     }
 }

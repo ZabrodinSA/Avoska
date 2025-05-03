@@ -47,14 +47,23 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"phoneNumber\": \"{{$randomPhoneNumber}}\",\r\n    \"phoneNumber\": \"484-575-4038\",\r\n    \"code\": \"{{authCode}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/users/{{authCode}}",
+							"raw": "{{baseURL}}/users/codeCheck",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"users",
-								"{{authCode}}"
+								"codeCheck"
 							]
 						}
 					},
@@ -78,7 +87,7 @@
 					"response": []
 				},
 				{
-					"name": "UserByID",
+					"name": "UserByPhoneNumber",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -90,32 +99,31 @@
 							"file": {}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/users/{{user.ID}}",
+							"raw": "{{baseURL}}/users/799-564-5164",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"users",
-								"{{user.ID}}"
+								"799-564-5164"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "User",
+					"name": "UserByPhoneNumber",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/goods/3012cb35-0cfa-4af8-816e-8d3e9001918a",
+							"raw": "{{baseURL}}/users/799-564-5164",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"goods",
-								"3012cb35-0cfa-4af8-816e-8d3e9001918a"
+								"users",
+								"799-564-5164"
 							]
 						}
 					},
@@ -128,7 +136,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"a1a446a8-88b8-4e93-8b32-1aefd2453147\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"id\": \"4eed3dfb-41c1-4a7d-a86f-5fa273a399c3\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"a1a446a8-88b8-4e93-8b32-1aefd2453147\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"id\": \"4eed3dfb-41c1-4a7d-a86f-5fa273a399c3\",\r\n    \"name\": \"Sergey\",\r\n    \"email\": \"sergey@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -196,12 +204,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/api/catalogs/addCategory",
+									"raw": "{{baseURL}}/catalogs/addCategory",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
-										"api",
 										"catalogs",
 										"addCategory"
 									]
@@ -210,12 +217,12 @@
 							"response": []
 						},
 						{
-							"name": "SearchCategoryByName",
+							"name": "SearchCategory",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseURL}}/catalogs/search?name={{categoryName}}",
+									"raw": "{{baseURL}}/catalogs/search?name=Овощиss",
 									"host": [
 										"{{baseURL}}"
 									],
@@ -226,7 +233,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "{{categoryName}}"
+											"value": "Овощиss"
 										}
 									]
 								}
@@ -251,13 +258,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseURL}}/catalogs/{{categoryID}}",
+									"raw": "{{baseURL}}/catalogs/77e7b648-26e4-4d09-a465-7e4c7037d3df",
 									"host": [
 										"{{baseURL}}"
 									],
 									"path": [
 										"catalogs",
-										"{{categoryID}}"
+										"77e7b648-26e4-4d09-a465-7e4c7037d3df"
 									]
 								}
 							},
@@ -270,7 +277,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"97ea571d-a8a6-4257-9762-f1d1f3133d65\",\r\n    \"name\": \"Овощи\",\r\n    \"image\": \"/resources/catalog/category/1.png\"\r\n}",
+									"raw": "{\r\n    \"id\": \"31208cf7-b756-480c-8ffa-584a7bb83251\",\r\n    \"name\": \"Ово\",\r\n    \"image\": \"/resources/catalog/category/1.png\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -296,7 +303,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\":\"\",\r\n    \"name\":\"Овощи\",\r\n    \"image\":\"/resources/catalog/category/1.png\"\r\n}",
+									"raw": "{\r\n    \"id\":\"77e7b648-26e4-4d09-a465-7e4c7037d3de\",\r\n    \"name\":\"Овощи\",\r\n    \"image\":\"/resources/catalog/category/1.png\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -346,16 +353,27 @@
 				},
 				{
 					"name": "Catalog",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseURL}}/api/catalogs",
+							"raw": "{{baseURL}}/catalogs",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"catalogs"
 							]
 						}
@@ -374,7 +392,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"raw": "{\r\n    \"categoryName\": \"овощи\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -382,12 +400,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/goods",
+							"raw": "{{baseURL}}/goods",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods"
 							]
 						}
@@ -418,27 +435,26 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/goods/id",
+							"raw": "{{baseURL}}/goods/324f0b17-e667-4495-ab0c-a07de6f9a2df",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods",
-								"id"
+								"324f0b17-e667-4495-ab0c-a07de6f9a2df"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "UpdateGood",
+					"name": "Good",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"raw": "    {\r\n        \"id\": \"324f0b17-e667-4495-ab0c-a07de6f9a2d9\",\r\n        \"name\": \"Томаты красные\",\r\n        \"categoryName\": \"фрукты\",\r\n        \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n        \"image\": \"/resources/goods/redTomatos.png\",\r\n        \"composition\": \"Томаты 100%\",\r\n        \"weightPerGram\": null,\r\n        \"nutritionalValue\": {\r\n            \"proteins\": \"1g\",\r\n            \"fat\": \"0.2g\",\r\n            \"carbohydrates\": \"3.9g\"\r\n        },\r\n        \"manufactureCountry\": \"Spain\",\r\n        \"expirationDate\": \"2025-12-31T00:00:00\"\r\n    }\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -446,12 +462,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/goods",
+							"raw": "{{baseURL}}/goods",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"api",
 								"goods"
 							]
 						}
@@ -459,13 +474,13 @@
 					"response": []
 				},
 				{
-					"name": "PatchGood",
+					"name": "Good",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":{{goodID}},\r\n    \"categoryId\": \"vegetables\",\r\n    \"name\": \"Томаты красные\",\r\n    \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n    \"image\": \"/resources/goods/redTomatos.png\",\r\n    \"composition\": \"Томаты 100%\",\r\n    \"weight\": \"500g\",\r\n    \"nutritionalValue\": {\r\n        \"proteins\": \"1g\",\r\n        \"fat\": \"0.2g\",\r\n        \"carbohydrates\": \"3.9g\"\r\n    },\r\n    \"manufactureCountry\": \"Spain\",\r\n    \"expirationDate\": \"2025-12-31\"\r\n}",
+							"raw": "    {\r\n        \"id\": \"324f0b17-e667-4495-ab0c-a07de6f9a2d9\",\r\n        \"name\": \"Томаты красные\",\r\n        \"categoryName\": \"овощи\",\r\n        \"description\": \"Свежие красные томаты, выращенные в экологически чистых условиях.\",\r\n        \"image\": \"/resources/goods/redTomatos.png\",\r\n        \"composition\": \"Томаты 100%\",\r\n        \"weightPerGram\": null,\r\n        \"nutritionalValue\": {\r\n            \"proteins\": \"1g\",\r\n            \"fat\": \"0.2g\",\r\n            \"carbohydrates\": \"3.9g\"\r\n        },\r\n        \"manufactureCountry\": \"France\",\r\n        \"expirationDate\": \"2025-12-31T00:00:00\"\r\n    }\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -490,17 +505,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/goods?categoryName=Овощи",
+							"raw": "{{baseURL}}/goods/searchByCategory?categoryName=фрукты",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
-								"goods"
+								"goods",
+								"searchByCategory"
 							],
 							"query": [
 								{
 									"key": "categoryName",
-									"value": "Овощи"
+									"value": "фрукты"
 								}
 							]
 						}
@@ -508,23 +524,23 @@
 					"response": []
 				},
 				{
-					"name": "SearchGoodsByName",
+					"name": "GoodByName",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/goods/search?name=Томаты красные",
+							"raw": "{{baseURL}}/goods/byName?name=Томаты красн",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"goods",
-								"search"
+								"byName"
 							],
 							"query": [
 								{
 									"key": "name",
-									"value": "Томаты красные"
+									"value": "Томаты красн"
 								}
 							]
 						}
@@ -575,11 +591,6 @@
 	],
 	"variable": [
 		{
-			"key": "user.ID",
-			"value": "13",
-			"type": "default"
-		},
-		{
 			"key": "authCode",
 			"value": "12345",
 			"type": "string"
@@ -596,8 +607,8 @@
 		},
 		{
 			"key": "categoryName",
-			"value": "",
-			"type": "default"
+			"value": "Овощи",
+			"type": "string"
 		}
 	]
 }

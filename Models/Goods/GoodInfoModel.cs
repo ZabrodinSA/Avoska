@@ -4,11 +4,6 @@ namespace Avoska.Models.Goods;
 
 public class GoodInfoModel
 {
-    public GoodInfoModel(AddGoodInfoModelDto addGoodInfoModelDto)
-    {
-        FromDto(addGoodInfoModelDto);
-    }
-
     [Required]
     public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -52,8 +47,8 @@ public class GoodInfoModel
         Image = goodInfoModelDto.Image;
         ManufactureCountry = goodInfoModelDto.ManufactureCountry;
     }
-
-    private void FromDto(AddGoodInfoModelDto addGoodInfoModelDto)
+    
+    public void Update(AddGoodInfoModelDto addGoodInfoModelDto)
     {
         CategoryName = addGoodInfoModelDto.CategoryName;
         Name = addGoodInfoModelDto.Name;

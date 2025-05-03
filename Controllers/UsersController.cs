@@ -1,4 +1,5 @@
-﻿using Avoska.Models.Users;
+﻿using System.Collections;
+using Avoska.Models.Users;
 using Avoska.Repositories.Users;
 using Avoska.Services;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +11,9 @@ namespace Avoska.Controllers
     [Route("[controller]")]
     public class UsersController(
         IUsersInfoRepository repository,
+        UserInfoContext userInfoContext,
         IPhoneAuthService phoneAuthService,
-        SignInManager<AuthUserModel> signInManager,
-        UserManager<AuthUserModel> userManager,
-        RoleManager<IdentityRole> roleManager)
+        SignInManager<UserInfoModel> signInManager)
         : Controller
     {
         [HttpPost("auth")]
@@ -21,18 +21,6 @@ namespace Avoska.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
-            var user = await userManager.FindByNameAsync(phoneNumber);
-            if (user == null)
-            {
-                user = new AuthUserModel
-                {
-                    UserName = phoneNumber,
-                    PhoneNumber = phoneNumber
-                };
-                var result = await userManager.CreateAsync(user);
-                if (!result.Succeeded) return BadRequest(result.Errors);
-            }
 
             phoneAuthService.SendAuthCode(phoneNumber);
             
@@ -48,36 +36,37 @@ namespace Avoska.Controllers
             var isValid = await phoneAuthService.VerifyCodeAsync(verifyCode);
             if (!isValid) return BadRequest($"Неверный код аунтификации, номер: {verifyCode.PhoneNumber}");
 
-            var user = await userManager.FindByNameAsync(verifyCode.PhoneNumber);
-            if (user == null)
-                return BadRequest($"Нет подключений с номером {verifyCode.PhoneNumber}");
-
-            await signInManager.SignInAsync(user, false);
-
-            var identityRole = await roleManager.FindByNameAsync(AuthUserModel.ADMIN_ROLE);
-            if (identityRole == null)
+            var userInfo = await repository.GetByPhone(verifyCode.PhoneNumber);
+            var jsonResult = new JsonResult(userInfo);
+            if (userInfo == null)
             {
-                var result = await roleManager.CreateAsync(new IdentityRole(AuthUserModel.ADMIN_ROLE));
-                if (!result.Succeeded) return BadRequest("Ошибка создания роли /n" + result.Errors);
+                userInfo = await repository.Add(verifyCode.PhoneNumber);
+                jsonResult = new JsonResult(userInfo)
+                {
+                    StatusCode = StatusCodes.Status201Created
+                };
+                if (userInfo == null) return BadRequest("Не удалось создать нового пользователя");
             }
-            
-            await userManager.AddToRoleAsync(user, AuthUserModel.ADMIN_ROLE);
-            var infoModelFromBd = repository.GetByPhone(verifyCode.PhoneNumber);
-            var jsonResult = Json(infoModelFromBd);
-            if (infoModelFromBd == null)
-            {
-                jsonResult.Value = repository.Add(verifyCode.PhoneNumber);
-                jsonResult.StatusCode = StatusCodes.Status201Created;
-            }
+
+            await signInManager.SignInAsync(userInfo, false);
+
+            // var identityRole = await roleManager.FindByNameAsync(UserInfoModel.ADMIN_ROLE);
+            // if (identityRole == null)
+            // {
+            //     var result = await roleManager.CreateAsync(new IdentityRole(UserInfoModel.ADMIN_ROLE));
+            //     if (!result.Succeeded) return BadRequest("Ошибка создания роли /n" + result.Errors);
+            // }
+            //
+            // await userManager.AddToRoleAsync(user, UserInfoModel.ADMIN_ROLE);
 
             return jsonResult;
         }
 
         [HttpGet]
         // [Authorize(Roles = AuthUserModel.ADMIN_ROLE)] TODO добавить когда модель юзера перетекёт в БД
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
-            var userInfoModels = repository.GetAll();
+            var userInfoModels = await repository.GetAll();
             var jsonResult = Json(userInfoModels);
 
             if (!userInfoModels.Any())
@@ -86,11 +75,11 @@ namespace Avoska.Controllers
             return jsonResult;
         }
         
-        [HttpGet("{id:guid}")]
+        [HttpGet("{phoneNumber}")]
         // [Authorize(Roles = AuthUserModel.ADMIN_ROLE)]
-        public IActionResult GetUserById([FromRoute] Guid id)
+        public async Task<IActionResult> GetUserByPhoneNumber([FromRoute] string phoneNumber)
         {
-            var userInfoModel = repository.GetById(id);
+            var userInfoModel = await repository.GetByPhone(phoneNumber);
 
             if (userInfoModel == null)
                 return NotFound();
@@ -99,36 +88,33 @@ namespace Avoska.Controllers
         }
 
         [HttpPut]
-        public IActionResult PutUserInfo([FromBody] PutUserInfoModelDto userInfoModelDto)
+        public async Task<IActionResult> PutUserInfo([FromBody] PutUserInfoModelDto userInfoModelDto)
         {
-            var userInfoModel = repository.Put(userInfoModelDto);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var userInfoModel = await repository.Put(userInfoModelDto);
 
-            if (userInfoModel == null)
-                return NotFound();
-
-            return Json(userInfoModel);
+            return userInfoModel != null ? Json(userInfoModel) : NotFound();
         }
         
         [HttpPatch]
-        public IActionResult PatchUserInfo([FromBody] PatchUserInfoModelDto userInfoModelDto)
+        public async Task<IActionResult> PatchUserInfo([FromBody] PatchUserInfoModelDto userInfoModelDto)
         {
-            var userInfoModel = repository.Patch(userInfoModelDto);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            var userInfoModel = await repository.Patch(userInfoModelDto);
 
-            if (userInfoModel == null)
-                return NotFound();
-
-            return Json(userInfoModel);
+            return userInfoModel != null ? Json(userInfoModel) : NotFound();
         }
 
-        [HttpDelete("{id:guid}")]
-        public IActionResult DeleteUser([FromRoute] Guid id)
+        [HttpDelete("{phoneNumber}")]
+        public async Task<IActionResult> DeleteUserByPhoneNumber([FromRoute] string phoneNumber)
         {
-            var userInfoModel = repository.DeleteById(id);
+            var userInfoModel = await repository.DeleteByPhone(phoneNumber);
 
-            if (userInfoModel == null)
-                return NotFound();
-
-            return Json(userInfoModel);
+            return userInfoModel != null ? Json(userInfoModel) : NotFound();
         }
     }
 }

@@ -4,19 +4,19 @@ namespace Avoska.Repositories.Goods;
 
 public interface IGoodsInfoRepository
 {
-    public IEnumerable<GoodInfoModel> GetAll();
+    public Task<IEnumerable<GoodInfoModel>> GetAll();
 
-    public GoodInfoModel? GetById(Guid id);
+    public Task<GoodInfoModel?> GetById(Guid id);
 
-    public GoodInfoModel? GetByName(string name);
+    public Task<GoodInfoModel?> GetByName(string name);
 
-    public IEnumerable<GoodInfoModel> GetByCategoryName(string categoryName);
+    public Task<IEnumerable<GoodInfoModel>> GetByCategoryName(string categoryName);
 
-    public GoodInfoModel Add(AddGoodInfoModelDto addGoodInfo);
+    public Task<GoodInfoModel?> Add(AddGoodInfoModelDto addGoodInfo);
 
-    public GoodInfoModel? Put(PutGoodInfoModelDto addGoodInfo);
+    public Task<GoodInfoModel?> Put(PutGoodInfoModelDto putGoodInfo);
     
-    public GoodInfoModel? Patch(PatchGoodInfoModelDto addGoodInfo);
+    public Task<GoodInfoModel?> Patch(PatchGoodInfoModelDto patchGoodInfo);
 
-    public GoodInfoModel? DeleteById(Guid name);
+    public Task<GoodInfoModel?> DeleteById(Guid name);
 }

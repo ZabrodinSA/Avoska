@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Avoska.Models.Users;
 
-public class AuthUserDbContext : IdentityDbContext<AuthUserModel>
+public class UserInfoContext : IdentityDbContext<UserInfoModel>
 {
-    public AuthUserDbContext(DbContextOptions<AuthUserDbContext> options)
+    public UserInfoContext(DbContextOptions<UserInfoContext> options)
         : base(options)
     {
         Database.EnsureCreated();

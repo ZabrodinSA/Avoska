@@ -1,29 +1,38 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Avoska.Models.Users;
 
-public class UserInfoModel(string phoneNumber)
+public sealed class UserInfoModel : IdentityUser
 {
-    [Required] 
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public const string  ADMIN_ROLE = "admin";
+    public const string  USER_ROLE = "user";
+    public const string  DEFAULT_USER_NAME = "Empty";
+
+    public UserInfoModel(string phoneNumber)
+    {
+        PhoneNumber = phoneNumber;
+        Id = phoneNumber;
+        UserName = DEFAULT_USER_NAME;
+    }
 
     [Required]
-    public string PhoneNumber { get; } = phoneNumber;
-
-    public string? Name { get; set; }
+    public override string PhoneNumber { get; set; }
 
     [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
-    public string? Email { get; set; }
+    public override string? Email { get; set; }
+
+    public override string Id { get; set; }
 
     public void Update(PutUserInfoModelDto putUserInfoModelDto)
     {
-        Name = putUserInfoModelDto.Name;
+        UserName = putUserInfoModelDto.Name;
         Email = putUserInfoModelDto.Email;
     }
     
     public void Update(PatchUserInfoModelDto patchCategoryModelDto)
     {
-        Name = patchCategoryModelDto.Name;
+        UserName = patchCategoryModelDto.Name;
         Email = patchCategoryModelDto.Email;
     }
 }
