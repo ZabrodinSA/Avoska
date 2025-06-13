@@ -6,6 +6,9 @@
 /projectSettingsUpdater.xml
 /contentModel.xml
 /.idea.Avoska.iml
+/obj/
+/bin/
+/.idea/
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
