@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Avoska.Models.Users;
+﻿using Avoska.Models.Users;
 using Avoska.Repositories.Users;
 using Avoska.Services;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +10,6 @@ namespace Avoska.Controllers
     [Route("[controller]")]
     public class UsersController(
         IUsersInfoRepository repository,
-        UserInfoContext userInfoContext,
         IPhoneAuthService phoneAuthService,
         SignInManager<UserInfoModel> signInManager)
         : Controller
