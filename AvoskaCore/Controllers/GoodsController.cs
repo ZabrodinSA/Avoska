@@ -22,14 +22,12 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
         }
         
         goodInfoModel = await repository.Add(addGoodInfoModel);
-        if (goodInfoModel != null)
-        {
-            var jsonResult = Json(goodInfoModel);
-            jsonResult.StatusCode = StatusCodes.Status201Created;
-            return jsonResult;
-        }
-
-        return BadRequest($"Не получилось добавить продукт: {addGoodInfoModel.Name}");
+        if (goodInfoModel == null) 
+            return BadRequest($"Не получилось добавить продукт: {addGoodInfoModel.Name}");
+        
+        var jsonResult = Json(goodInfoModel);
+        jsonResult.StatusCode = StatusCodes.Status201Created;
+        return jsonResult;
     }
 
     [HttpGet]
