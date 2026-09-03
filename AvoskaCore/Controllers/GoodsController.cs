@@ -1,6 +1,7 @@
 ﻿using Avoska.Models.Goods;
 using Avoska.Repositories.Goods;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Avoska.Controllers;
 
@@ -34,10 +35,11 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
     public async Task<IActionResult> GetAllGoods()
     {
         var goodInfoModels = await repository.GetAll();
-        var jsonResult = Json(goodInfoModels);
 
-        if (!goodInfoModels.Any())
-            jsonResult.StatusCode = StatusCodes.Status204NoContent;
+        if (goodInfoModels.IsNullOrEmpty())
+            return NoContent();
+        
+        var jsonResult = Json(goodInfoModels);
 
         return jsonResult;
     }

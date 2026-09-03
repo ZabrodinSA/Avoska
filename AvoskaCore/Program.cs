@@ -53,22 +53,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-//TODO Удобно чистить базу пока так
-// using (var scope = app.Services.CreateScope())
-// {
-//     var dbContext = scope.ServiceProvider.GetRequiredService<UserInfoContext>();
-//     await dbContext.Database.EnsureDeletedAsync(); // Удаляем существующую БД
-//     await dbContext.Database.EnsureCreatedAsync(); // Создаем новую с актуальной схемой
-//     
-//     var dbContextGoods = scope.ServiceProvider.GetRequiredService<GoodsInfoContext>();
-//     await dbContextGoods.Database.EnsureDeletedAsync(); // Удаляем существующую БД
-//     await dbContextGoods.Database.EnsureCreatedAsync(); // Создаем новую с актуальной схемой
-//     
-//     var dbContextCategory = scope.ServiceProvider.GetRequiredService<CategoriesContext>();
-//     await dbContextCategory.Database.EnsureDeletedAsync(); // Удаляем существующую БД
-//     await dbContextCategory.Database.EnsureCreatedAsync(); // Создаем новую с актуальной схемой
-// }
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -78,7 +62,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication(); 

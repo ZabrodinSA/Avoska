@@ -1,6 +1,7 @@
 ﻿using Avoska.Models.Catalogs;
 using Avoska.Repositories.Catalogs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Avoska.Controllers;
 
@@ -75,10 +76,11 @@ public class CatalogsController(ICategoriesRepository repository) : Controller
     public async Task<IActionResult> GetCatalog()
     {
         var catalogModels = await repository.GetAll();
-        var jsonResult = Json(catalogModels);
 
-        if (!catalogModels.Any())
-            jsonResult.StatusCode = StatusCodes.Status204NoContent;
+        if (catalogModels.IsNullOrEmpty())
+            return NoContent();
+        
+        var jsonResult = Json(catalogModels);
 
         return jsonResult;
     }
