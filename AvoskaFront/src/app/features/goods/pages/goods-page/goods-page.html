@@ -1,22 +1,7 @@
 <h1>Goods</h1>
 
 @if (goods$ | async; as goods) {
-
   @for (good of goods; track good.id) {
-    <div>
-      <h2>{{ good.name }}</h2>
-
-      <p>
-        Category: {{ good.categoryName }}
-      </p>
-
-      <p>
-        {{ good.description }}
-      </p>
-
-      <p>
-        Country: {{ good.manufactureCountry }}
-      </p>
-    </div>
+    <app-good-card [good]="good" />
   }
 }
