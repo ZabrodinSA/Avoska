@@ -16,4 +16,8 @@ export class GoodsService {
   getAll(): Observable<Good[]> {
     return this.http.get<Good[]>(this.apiUrl);
   }
+
+  getById(id: string): Observable<Good> {
+    return this.http.get<Good>(`${this.apiUrl}/${id}`);
+  }
 }

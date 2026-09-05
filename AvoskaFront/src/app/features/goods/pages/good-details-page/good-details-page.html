@@ -1,0 +1,17 @@
+@if (good$ | async; as good) {
+  <h1>{{ good.name }}</h1>
+
+  <p>{{ good.description }}</p>
+
+  <p>Category: {{ good.categoryName }}</p>
+
+  <p>Composition: {{ good.composition }}</p>
+
+  <p>Country: {{ good.manufactureCountry }}</p>
+
+  <h2>Nutritional value</h2>
+
+  <p>Proteins: {{ good.nutritionalValue.proteins }}</p>
+  <p>Fat: {{ good.nutritionalValue.fat }}</p>
+  <p>Carbohydrates: {{ good.nutritionalValue.carbohydrates }}</p>
+}

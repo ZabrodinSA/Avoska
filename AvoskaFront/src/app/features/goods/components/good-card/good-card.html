@@ -3,4 +3,7 @@
   <p>{{ good().description }}</p>
   <p>{{ good().categoryName }}</p>
   <p>{{ good().manufactureCountry }}</p>
+  <a [routerLink]="['/goods', good().id]">
+    Подробнее
+  </a>
 </div>
