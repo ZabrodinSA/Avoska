@@ -5,3 +5,17 @@
     <app-good-card [good]="good" />
   }
 }
+
+<h2>Категории</h2>
+
+@if (categories$ | async; as categories) {
+
+  @for (category of categories; track category.id) {
+
+    <button>
+      {{ category.name }}
+    </button>
+
+  }
+
+}

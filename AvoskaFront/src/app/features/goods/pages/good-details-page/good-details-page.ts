@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { GoodsService } from '../../data-access/good.service';
+import { switchMap } from 'rxjs';
+
 @Component({
   imports: [AsyncPipe],
   selector: 'app-good-details-page',
@@ -14,9 +16,15 @@ export class GoodDetailsPage {
   private readonly route = inject(ActivatedRoute);
   private readonly goodsService = inject(GoodsService);
 
-  id = this.route.snapshot.paramMap.get('id');
+  good$ = this.route.paramMap.pipe(
+    switchMap(params => {
+      const id = params.get('id');
 
-  good$ = this.id
-    ? this.goodsService.getById(this.id)
-    : null;
+      if (!id) {
+        throw new Error('Good id is missing');
+      }
+
+      return this.goodsService.getById(id);
+    })
+  );
 }
