@@ -20,4 +20,22 @@ export class GoodsService {
   getById(id: string): Observable<Good> {
     return this.http.get<Good>(`${this.apiUrl}/${id}`);
   }
+
+  getByCategory(categoryName: string): Observable<Good[]> {
+    return this.http.get<Good[]>(
+      `${this.apiUrl}/searchByCategory`,
+      {
+        params: { categoryName }
+      }
+    );
+  }
+
+  getByName(name: string): Observable<Good[]> {
+    return this.http.get<Good[]>(
+      `${this.apiUrl}/searchByName`,
+      {
+        params: { name }
+      }
+    );
+  }
 }

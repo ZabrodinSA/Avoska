@@ -1,21 +1,34 @@
 <h1>Goods</h1>
 
+<input
+  type="text"
+  placeholder="Поиск товаров..."
+  [value]="searchText()"
+  (input)="onSearch($event)"
+/>
+
+<p>Ищем: {{ searchText() }}</p>
+
+<h2>Categories</h2>
+
+<button
+  [class.active]="selectedCategory() === null"
+  (click)="selectCategory(null)">
+  All
+</button>
+
+@if (categories$ | async; as categories) {
+  @for (category of categories; track category.id) {
+    <button
+      [class.active]="selectedCategory() === category.name"
+      (click)="selectCategory(category.name)">
+      {{ category.name }}
+    </button>
+  }
+}
+
 @if (goods$ | async; as goods) {
   @for (good of goods; track good.id) {
     <app-good-card [good]="good" />
   }
-}
-
-<h2>Категории</h2>
-
-@if (categories$ | async; as categories) {
-
-  @for (category of categories; track category.id) {
-
-    <button>
-      {{ category.name }}
-    </button>
-
-  }
-
 }

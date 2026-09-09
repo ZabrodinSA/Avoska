@@ -97,11 +97,14 @@ public class GoodsController(IGoodsInfoRepository repository) : Controller
         return jsonResult;
     }
     
-    [HttpGet("byName")]
-    public async Task<IActionResult> GetGoodByName([FromQuery] string name)
+    [HttpGet("searchByName")]
+    public async Task<IActionResult> SearchGetGoodByName([FromQuery] string name)
     {
-        var goodInfoModel = await repository.GetByName(name);
-        
-        return goodInfoModel != null ? Json(goodInfoModel) : NotFound();
+        if (string.IsNullOrWhiteSpace(name))
+            return BadRequest("Search name cannot be empty.");
+
+        var goods = await repository.SearchGoodsByName(name.Trim());
+
+        return Ok(goods);
     }
 }

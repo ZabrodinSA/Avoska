@@ -11,6 +11,7 @@ public interface IGoodsInfoRepository
     public Task<GoodInfoModel?> GetByName(string name);
 
     public Task<IEnumerable<GoodInfoModel>> GetByCategoryName(string categoryName);
+    Task<IEnumerable<GoodInfoModel>> SearchGoodsByName(string name);
 
     public Task<GoodInfoModel?> Add(AddGoodInfoModelDto addGoodInfo);
 

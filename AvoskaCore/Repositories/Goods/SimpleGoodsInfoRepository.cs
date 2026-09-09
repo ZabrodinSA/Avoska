@@ -26,6 +26,11 @@ public class SimpleGoodsInfoRepository : IGoodsInfoRepository
         return Task.FromResult(GoodInfosMap.Values.Where(o => o.CategoryName == categoryName));
     }
 
+    public Task<IEnumerable<GoodInfoModel>> SearchGoodsByName(string name)
+    {
+        return Task.FromResult(GoodInfosMap.Values.Where(o => !string.IsNullOrWhiteSpace(o.Name) && o.Name.Contains(name)));
+    }
+
     public Task<GoodInfoModel?> Add(AddGoodInfoModelDto addGoodInfoModelDto)
     {
         var goodInfo = new GoodInfoModel();

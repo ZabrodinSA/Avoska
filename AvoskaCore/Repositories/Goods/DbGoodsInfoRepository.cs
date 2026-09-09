@@ -27,6 +27,13 @@ public class DbGoodsInfoRepository(
     {
         return await db.Goods.Where(good => good.CategoryName == categoryName).ToListAsync();
     }
+    
+    public async Task<IEnumerable<GoodInfoModel>> SearchGoodsByName(string name)
+    {
+        return await db.Goods
+            .Where(good => good.Name.Contains(name))
+            .ToListAsync();
+    }
 
     public async Task<GoodInfoModel?> Add(AddGoodInfoModelDto addGoodInfo)
     {
