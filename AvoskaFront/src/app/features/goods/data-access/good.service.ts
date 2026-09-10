@@ -30,7 +30,7 @@ export class GoodsService {
     );
   }
 
-  getByName(name: string): Observable<Good[]> {
+  searchByName(name: string): Observable<Good[]> {
     return this.http.get<Good[]>(
       `${this.apiUrl}/searchByName`,
       {

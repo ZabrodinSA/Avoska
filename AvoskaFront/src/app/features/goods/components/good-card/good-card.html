@@ -1,9 +1,32 @@
-<div>
-  <h2>{{ good().name }}</h2>
-  <p>{{ good().description }}</p>
-  <p>{{ good().categoryName }}</p>
-  <p>{{ good().manufactureCountry }}</p>
-  <a [routerLink]="['/goods', good().id]">
-    Подробнее
+<article class="good-card">
+  <a
+    class="good-card__link"
+    [routerLink]="['/goods', good().id]"
+  >
+    <div class="good-card__image-wrapper">
+      <img
+        class="good-card__image"
+        [src]="good().image"
+        [alt]="good().name"
+      />
+    </div>
+
+    <div class="good-card__content">
+      <h3 class="good-card__title">
+        {{ good().name }}
+      </h3>
+
+      <p class="good-card__description">
+        {{ good().description }}
+      </p>
+
+      <div class="good-card__meta">
+        <span>{{ good().categoryName }}</span>
+
+        @if (good().weightPerGram) {
+          <span>{{ good().weightPerGram }} g</span>
+        }
+      </div>
+    </div>
   </a>
-</div>
+</article>

@@ -1,17 +1,83 @@
 @if (good$ | async; as good) {
-  <h1>{{ good.name }}</h1>
+  <section class="good-details">
+<!--    <a-->
+<!--      class="good-details__back"-->
+<!--      routerLink="/goods">-->
+<!--      ← Back to goods-->
+<!--    </a>-->
+    <button
+      class="good-details__back"
+      (click)="goBack()">
+      ← Back to goods
+    </button>
 
-  <p>{{ good.description }}</p>
+    <div class="good-details__layout">
+      <div class="good-details__image-wrapper">
+        <img
+          class="good-details__image"
+          [src]="good.image"
+          [alt]="good.name"
+        />
+      </div>
 
-  <p>Category: {{ good.categoryName }}</p>
+      <div class="good-details__content">
+        <span class="good-details__category">
+          {{ good.categoryName }}
+        </span>
 
-  <p>Composition: {{ good.composition }}</p>
+        <h1 class="good-details__title">
+          {{ good.name }}
+        </h1>
 
-  <p>Country: {{ good.manufactureCountry }}</p>
+        <p class="good-details__description">
+          {{ good.description }}
+        </p>
 
-  <h2>Nutritional value</h2>
+        <div class="good-details__info">
+          @if (good.weightPerGram) {
+            <div class="good-details__info-row">
+              <span>Weight</span>
+              <strong>{{ good.weightPerGram }} g</strong>
+            </div>
+          }
 
-  <p>Proteins: {{ good.nutritionalValue.proteins }}</p>
-  <p>Fat: {{ good.nutritionalValue.fat }}</p>
-  <p>Carbohydrates: {{ good.nutritionalValue.carbohydrates }}</p>
+          <div class="good-details__info-row">
+            <span>Country of origin</span>
+            <strong>{{ good.manufactureCountry }}</strong>
+          </div>
+
+          <div class="good-details__info-row">
+            <span>Expiration date</span>
+            <strong>{{ good.expirationDate }}</strong>
+          </div>
+        </div>
+
+        <section class="good-details__section">
+          <h2>Composition</h2>
+          <p>{{ good.composition }}</p>
+        </section>
+
+        <section class="good-details__section">
+          <h2>Nutritional value</h2>
+
+          <div class="nutrition">
+            <div class="nutrition__item">
+              <span>Proteins</span>
+              <strong>{{ good.nutritionalValue.proteins }}</strong>
+            </div>
+
+            <div class="nutrition__item">
+              <span>Fat</span>
+              <strong>{{ good.nutritionalValue.fat }}</strong>
+            </div>
+
+            <div class="nutrition__item">
+              <span>Carbohydrates</span>
+              <strong>{{ good.nutritionalValue.carbohydrates }}</strong>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
 }

@@ -1,34 +1,66 @@
-<h1>Goods</h1>
+<section class="goods-page">
+  <div class="goods-page__header">
+    <h1>Goods</h1>
 
-<input
-  type="text"
-  placeholder="Поиск товаров..."
-  [value]="searchText()"
-  (input)="onSearch($event)"
-/>
+    <input
+      class="goods-page__search"
+      type="text"
+      placeholder="Search goods..."
+      [value]="searchText()"
+      (input)="onSearch($event)"
+    />
+  </div>
 
-<p>Ищем: {{ searchText() }}</p>
-
-<h2>Categories</h2>
-
-<button
-  [class.active]="selectedCategory() === null"
-  (click)="selectCategory(null)">
-  All
-</button>
-
-@if (categories$ | async; as categories) {
-  @for (category of categories; track category.id) {
+  <div class="goods-page__categories">
     <button
-      [class.active]="selectedCategory() === category.name"
-      (click)="selectCategory(category.name)">
-      {{ category.name }}
+      class="category-button"
+      [class.category-button--active]="selectedCategory() === null"
+      (click)="selectCategory(null)">
+      All
     </button>
-  }
-}
 
-@if (goods$ | async; as goods) {
-  @for (good of goods; track good.id) {
-    <app-good-card [good]="good" />
-  }
-}
+    @if (categories$ | async; as categories) {
+      @for (category of categories; track category.id) {
+        <button
+          class="category-button"
+          [class.category-button--active]="selectedCategory() === category.name"
+          (click)="selectCategory(category.name)">
+          {{ category.name }}
+        </button>
+      }
+    }
+  </div>
+
+  <div class="goods-page__content">
+    @if (goodsState$ | async; as state) {
+      @switch (state.status) {
+
+        @case ('loading') {
+          <p class="goods-page__message">
+            Loading...
+          </p>
+        }
+
+        @case ('error') {
+          <p class="goods-page__message goods-page__message--error">
+            {{ state.message }}
+          </p>
+        }
+
+        @case ('success') {
+          @if (state.goods.length > 0) {
+            <div class="goods-grid">
+              @for (good of state.goods; track good.id) {
+                <app-good-card [good]="good" />
+              }
+            </div>
+          } @else {
+            <p class="goods-page__message">
+              No goods found
+            </p>
+          }
+        }
+      }
+    }
+  </div>
+</section>

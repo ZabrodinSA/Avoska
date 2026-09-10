@@ -3,9 +3,25 @@ import { GoodsService } from '../../data-access/good.service';
 import { AsyncPipe } from '@angular/common';
 import { GoodCard } from '../../components/good-card/good-card';
 import { CatalogService } from '../../../catalog/data-access/catalog.service';
-import { combineLatest, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  startWith,
+  switchMap
+} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {Good} from '../../models/good';
+
+type GoodsState =
+  | { status: 'loading' }
+  | { status: 'success'; goods: Good[] }
+  | { status: 'error'; message: string };
 
 @Component({
   imports: [AsyncPipe, GoodCard],
@@ -43,21 +59,38 @@ export class GoodsPage {
     }
   );
 
-  goods$ = combineLatest([
+  goodsState$: Observable<GoodsState> = combineLatest([
     this.category$,
     this.searchText$
   ]).pipe(
     switchMap(([categoryName, searchText]) => {
+      let request$: Observable<Good[]>;
 
       if (searchText) {
-        return this.goodsService.getByName(searchText);
+        request$ = this.goodsService.searchByName(searchText);
+      } else if (categoryName) {
+        request$ = this.goodsService.getByCategory(categoryName);
+      } else {
+        request$ = this.goodsService.getAll();
       }
 
-      if (categoryName) {
-        return this.goodsService.getByCategory(categoryName);
-      }
+      return request$.pipe(
+        map(goods => ({
+          status: 'success',
+          goods
+        }) as GoodsState),
 
-      return this.goodsService.getAll();
+        catchError(() =>
+          of<GoodsState>({
+            status: 'error',
+            message: 'Failed to load goods'
+          })
+        ),
+
+        startWith<GoodsState>({
+          status: 'loading'
+        })
+      );
     })
   );
 

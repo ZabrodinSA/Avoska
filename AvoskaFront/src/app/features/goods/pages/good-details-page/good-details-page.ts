@@ -27,4 +27,8 @@ export class GoodDetailsPage {
       return this.goodsService.getById(id);
     })
   );
+
+  goBack() {
+    history.back();
+  }
 }
